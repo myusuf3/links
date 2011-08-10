@@ -7,3 +7,6 @@ class Url(models.Model):
 	site = models.CharField(max_length=5000)
 	date_added = models.DateTimeField()
 	linked_count =  models.IntegerField()
+
+	def __unicode__(self):
+		return ('Shorten site at %s, linked %d times') % (self.site, self.linked_count)

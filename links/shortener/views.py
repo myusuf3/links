@@ -2,6 +2,7 @@ import urlparse
 from datetime import datetime # TODO make this better, it sucks
 
 import requests
+from django.http import HttpResponseRedirect
 from django.shortcuts import render,get_object_or_404
 from django.http import HttpResponsePermanentRedirect
 
@@ -21,8 +22,9 @@ def make_url_model(url, site):
 	"""
 	url_model = Url()
 	url_model.url = url
-	url_shorturl  = url
+	url_short  = url
 	url_model.url_shortened = url_short
+	url_model.site = strip_to_domain(url)
 	url_model.date_added = datetime.now()
 	url_model.linked_count = 0
 	url_model.save()
@@ -67,10 +69,11 @@ def homepage(request):
 		if form.is_valid():
 			#print form.cleaned_data
 			url = form.cleaned_data['url']
-			url_shortened = form.clean_data['url']
+			url_shortened = form.cleaned_data['url']
 			#submitted_check(url)
 			site = strip_to_domain(url)
 			make_url_model(url, site)
+			return HttpResponseRedirect('/thanks/')
 
 	else:
 		form = ShortenForm()
