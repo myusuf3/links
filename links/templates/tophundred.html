@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Links | Link shortener</title>
+  </head>
+  <body>
+  <h1>Top Hundred</h1>
+  {% for url in url_list%}
+  	<p>{{url.url}} - {{url.url_shortened}} with {{url.linked_count}} links</p>
+  {% endfor %}
+  </body>
+</html>

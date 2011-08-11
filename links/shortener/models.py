@@ -8,5 +8,9 @@ class Url(models.Model):
 	date_added = models.DateTimeField()
 	linked_count =  models.IntegerField()
 
+
+	class Meta:
+		ordering = ['-linked_count']
+
 	def __unicode__(self):
 		return ('Shorten site at %s, linked %d times') % (self.site, self.linked_count)

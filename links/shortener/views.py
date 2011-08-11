@@ -29,18 +29,7 @@ def make_url_model(url, site):
 	url_model.linked_count = 0
 	url_model.save()
 
-def submitted_check(url):
-	"""This method will check to see if the url has been already been submitted
-	   It will return that shorten_url and increment count.
-	"""
-	try:
-		url_model = Url.objects.get(url=url)
-	except:
-		return False
-	print url_model.url_shortened
-	#TODO check for if the 'site' is same then increment
-	url_model.linked_count += 1
-	return True
+
 
 def strip_to_domain(url):
 	""" This method will remove the extra bits and reviel the hostname, 
@@ -79,21 +68,28 @@ def homepage(request):
 	return render (request, 'index.html',  {'form':form})
 
 
+def thanks(request):
+	"""This view returns the shortened url back to the client.
+	"""
 
 
+def list_hundred_popular(request):
+	""" Returns the hundred most popular, by the amount being linked to. 
+	"""
+	url_list = Url.objects.order_by('-linked_count')[:100]
+	return render(request, 'tophundred.html', {'url_list': url_list})
 
-def redirect_link(request, sha1):
+
+def redirect_link(request, code):
 	"""This view is reponsible for decoding the hashcode and redirect to url page.
 
 	Keyword arguments:
 	hashcode -- shortcut used to look up corresponding url page
 
 	"""
+	pass
 
-	file_request = get_object_or_404(Url, sha1=sha1)
-	if file_request.user == request.user:
-		url  = file_request.file_loaded.url
-		#redirects the browser to the file in order to download
-		return redirect(url) 
-	else:
-		raise Http404
+	# file_request = get_object_or_404(Url, code=code)
+	# 	return redirect(url) 
+	# else:
+	# 	raise Http404
