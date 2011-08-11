@@ -77,11 +77,17 @@ def thanks(request):
 	"""
 	return render(request, 'thanks.html')
 
-def subtract_one_month(dt0):
-    dt1 = dt0.replace(day=1)
-    dt2 = dt1 - timedelta(days=1)
-    dt3 = dt2.replace(day=1)
-    return dt3
+def subtract_one_month(current_date):
+	"""This method returns date format for the previous month, this is achieved by setting, 
+	date to the first day of current month and going back one day, and therefore entering, 
+	previous month.
+
+	Keyword arguments
+
+	"""
+	current_date_day_one = current_date.replace(day=1)
+	previous_month = current_date_day_one - timedelta(days=1)
+	return previous_month
 
 
 def list_hundred_popular(request):

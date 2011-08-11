@@ -1,3 +1,7 @@
+from datetime import datetime # TODO make this better, it sucks
+from datetime import timedelta
+from datetime import date
+
 import requests
 from django import forms
 
@@ -14,8 +18,16 @@ def submitted_check(url):
 		return {'submitted': False} 
 	print url_model.url_shortened
 	#TODO check for if the 'site' is same then increment
-	url_model.linked_count += 1
-	url_model.save()
+	if url_model.date_updated.month == date.today().month:
+		print 'same_month'
+		url_model.date_updated = date.today()
+		url_model.linked_count += 1
+		url_model.save()
+	else:
+		print 'different_month'
+		url_model.date_updated = date.today()
+		url_model.linked_count = 1
+		url_model.save()
 	return {'submitted': True, 'url_model': url_model}
 
 class ShortenForm(forms.Form):
