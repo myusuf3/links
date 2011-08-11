@@ -1,3 +1,4 @@
+import re
 import urlparse
 from datetime import datetime # TODO make this better, it sucks
 from datetime import timedelta
@@ -26,20 +27,27 @@ def make_url_model(url, site):
 	url_model.url = url
 	url_short  = url
 	url_model.url_shortened = url_short
-	url_model.site = strip_to_domain(url)
+	url_model.site = site
 	now = datetime.now()
 	url_model.date_added = now
 	url_model.date_updated = now
-	url_model.linked_count = 0
+	url_model.linked_count = 1
 	url_model.save()
 
 
 
 def strip_to_domain(url):
 	""" This method will remove the extra bits and reviel the hostname, 
-		This method is needed for keeping track of site popularity
+		This method is needed for keeping track of site popularity.
+
+		all subdomains such as blog and about will be handled as different sites.
+		www. will be considered same as base site.
+
+		www.example.com and example.com are the same. while blog.example.com is different
 	"""
 	hostname = urlparse.urlparse(url).hostname
+	if hostname.startswith('www.'):
+		hostname = re.sub('^www\.', '', hostname)
 	return hostname
 
 
