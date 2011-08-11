@@ -1,5 +1,7 @@
 import urlparse
 from datetime import datetime # TODO make this better, it sucks
+from datetime import timedelta
+from datetime import date
 
 import requests
 from django.http import HttpResponseRedirect
@@ -25,7 +27,9 @@ def make_url_model(url, site):
 	url_short  = url
 	url_model.url_shortened = url_short
 	url_model.site = strip_to_domain(url)
-	url_model.date_added = datetime.now()
+	now = datetime.now()
+	url_model.date_added = now
+	url_model.date_updated = now
 	url_model.linked_count = 0
 	url_model.save()
 
@@ -71,12 +75,22 @@ def homepage(request):
 def thanks(request):
 	"""This view returns the shortened url back to the client.
 	"""
+	return render(request, 'thanks.html')
+
+def subtract_one_month(dt0):
+    dt1 = dt0.replace(day=1)
+    dt2 = dt1 - timedelta(days=1)
+    dt3 = dt2.replace(day=1)
+    return dt3
 
 
 def list_hundred_popular(request):
 	""" Returns the hundred most popular, by the amount being linked to. 
 	"""
-	url_list = Url.objects.order_by('-linked_count')[:100]
+	time = date.today()
+	month_ago = subtract_one_month(time)
+	month =  month_ago.month
+	url_list = Url.objects.filter(date_updated__month=month).order_by('-linked_count')[:100]
 	return render(request, 'tophundred.html', {'url_list': url_list})
 
 

@@ -5,7 +5,8 @@ class Url(models.Model):
 	url = models.CharField(max_length=5000)
 	url_shortened = models.CharField(max_length=50)
 	site = models.CharField(max_length=5000)
-	date_added = models.DateTimeField()
+	date_added = models.DateField()
+	date_updated = models.DateField()
 	linked_count =  models.IntegerField()
 
 
