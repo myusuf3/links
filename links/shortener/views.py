@@ -33,14 +33,14 @@ def submitted_check(url):
 	"""This method will check to see if the url has been already been submitted
 	   It will return that shorten_url and increment count.
 	"""
-	url_model = Url.objects.get(url=url)
-	if url_model:
-		print url_model.url_shortened
-		#TODO check for if the 'site' is same then increment
-		url_model.linked_count += 1
-		return True
-	else:
+	try:
+		url_model = Url.objects.get(url=url)
+	except:
 		return False
+	print url_model.url_shortened
+	#TODO check for if the 'site' is same then increment
+	url_model.linked_count += 1
+	return True
 
 def strip_to_domain(url):
 	""" This method will remove the extra bits and reviel the hostname, 
@@ -70,7 +70,6 @@ def homepage(request):
 			#print form.cleaned_data
 			url = form.cleaned_data['url']
 			url_shortened = form.cleaned_data['url']
-			#submitted_check(url)
 			site = strip_to_domain(url)
 			make_url_model(url, site)
 			return HttpResponseRedirect('/thanks/')
