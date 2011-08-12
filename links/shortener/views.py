@@ -161,4 +161,4 @@ def redirect_link(request, code):
 	pk_id=decode_62(code)
 	url_model = get_object_or_404(Url, pk=pk_id)
 	url = url_model.url
-	return HttpResponsePermanentRedirect(url
+	return HttpResponsePermanentRedirect(url)
