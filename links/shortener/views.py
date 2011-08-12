@@ -157,9 +157,8 @@ def redirect_link(request, code):
 	hashcode -- shortcut used to look up corresponding url page
 
 	"""
-	pass
-
-	# file_request = get_object_or_404(Url, code=code)
-	# 	return redirect(url) 
-	# else:
-	# 	raise Http404
+	# print code
+	pk_id=decode_62(code)
+	url_model = Url.objects.get(pk=pk_id)
+	url = url_model.url
+	return HttpResponsePermanentRedirect(url)

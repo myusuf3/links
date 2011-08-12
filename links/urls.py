@@ -4,6 +4,7 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
+	url(r'^(?P<code>[a-zA-Z0-9]+)$', 'shortener.views.redirect_link'),
     url(r'^$', 'shortener.views.homepage', name='home'),
     url(r'^thanks/', 'shortener.views.thanks', name='thanks'),
     url(r'^top/', 'shortener.views.list_top_domain_monthly', name='top'),
