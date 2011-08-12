@@ -6,7 +6,7 @@ from datetime import date
 
 import requests
 from django.http import HttpResponseRedirect
-from django.shortcuts import render,get_object_or_404
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponsePermanentRedirect
 
 from models import Url, Domain
@@ -159,6 +159,6 @@ def redirect_link(request, code):
 	"""
 	# print code
 	pk_id=decode_62(code)
-	url_model = Url.objects.get(pk=pk_id)
+	url_model = get_object_or_404(Url, pk=pk_id)
 	url = url_model.url
-	return HttpResponsePermanentRedirect(url)
+	return HttpResponsePermanentRedirect(url
