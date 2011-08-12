@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Links | Link shortener</title>
+  </head>
+  <body>
+  <h1>Last Hundred</h1>
+  {% for url in url_list%}
+  	<p> {{url.url}} with {{url.url_shortened}} create {{url.date_time_created}}</p>
+  {% endfor %}
+  </body>
+</html>
